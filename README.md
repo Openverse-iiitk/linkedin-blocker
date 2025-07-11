@@ -6,6 +6,17 @@ It's a smart Chrome extension that uses the power of AI to automatically detect 
 
 ![Feed filter Demo](images/icon.png)
 
+## 🧩 How to Install the Extension from Source (Unpacked)
+
+1. [Download the ZIP directly](https://github.com/manvith12/linkedin-blocker/archive/refs/tags/v1.0.0.zip).
+2. Extract the ZIP file to a folder on your system.
+3. Open `chrome://extensions/` in your Chromium-based browser (Chrome, Edge, Brave, etc.).
+4. **Enable "Developer mode"** (toggle in the top right corner).
+5. Click **"Load unpacked"** and select the extracted folder.
+6. The extension will now be installed and active.
+
+✅ No `.crx` needed — full control with source installation.
+
 ## ✨ Key Features
 
 *   🧠 **AI-Powered Filtering:** Uses a powerful AI model (via the Groq API) to analyze post content in real-time and decide if it's worth your time.
