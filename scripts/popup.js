@@ -83,4 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
     settingsButton.addEventListener('click', () => {
         chrome.runtime.openOptionsPage();
     });
+
+    document.getElementById('setup-api-btn')?.addEventListener('click', () => {
+        chrome.runtime.openOptionsPage(); // or window.open('settings.html')
+    });
 });

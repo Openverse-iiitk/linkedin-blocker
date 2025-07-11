@@ -21,8 +21,16 @@
         "128": "images/icon.png"
     },
     "action": {
-        "default_popup": "./pages/popup.html",
-        "default_title": "Feed filter"
+        "default_popup": "pages/popup.html",
+        "default_icon": {
+            "16": "images/icon.png",
+            "32": "images/icon.png",
+            "48": "images/icon.png",
+            "128": "images/icon.png"
+        },
+        "default_title": "LinkedIn Blocker",
+        "default_width": 500,
+        "default_height": 700
     },
     "options_page": "./pages/settings.html",
     "permissions": [

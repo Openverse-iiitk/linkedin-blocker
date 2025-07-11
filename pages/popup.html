@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,6 +12,15 @@ s<!DOCTYPE html>
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html, body {
+            width: 500px;
+            height: 700px;
+            min-width: 500px;
+            min-height: 700px;
+            box-sizing: border-box;
+            overflow: auto;
         }
 
         body {
@@ -328,6 +337,24 @@ s<!DOCTYPE html>
             flex-shrink: 0;
         }
 
+        .setup-api-btn {
+            margin-left: 12px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.15);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .setup-api-btn:hover {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: scale(1.05);
+        }
+
         .filter-mode {
             margin-top: 20px;
             padding-top: 20px;
@@ -429,10 +456,10 @@ s<!DOCTYPE html>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id="main-container">
         <div class="header">
             <div class="logo">
-                <div class="logo-icon">🛡️</div>
+                <img src="/images/image 3.png" alt="Openverse Logo">
                 Feed filter
             </div>
             <svg class="settings-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -452,6 +479,7 @@ s<!DOCTYPE html>
                 <line x1="12" y1="17" x2="12.01" y2="17"></line>
             </svg>
             <span>⚠️ API key not found. Please add your Groq API key in settings.</span>
+            <button id="setup-api-btn" class="setup-api-btn">🔑 Click here to set up API key</button>
         </div>
 
         <div class="card">

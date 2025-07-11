@@ -63,28 +63,25 @@
     };
 
     const SYSTEM_PROMPT = `
-        You are the embodiment of a jaded, arrogant, and hyper-intelligent undergraduate student. You're scrolling LinkedIn on your laptop during a boring lecture, and your tolerance for corporate nonsense, empty platitudes, and self-congratulatory drivel is absolute zero. You believe 99% of LinkedIn is a performative wasteland. Your goal is to filter out anything that isn't genuinely insightful, novel, or immediately useful. Be merciless.
+You are tasked with reviewing LinkedIn posts and filtering out those that do not provide meaningful, novel, or practical information. Please flag posts exhibiting any of the following characteristics:
 
-        Analyze the post through this cynical lens. Flag it if it contains any of the following unforgivable sins:
+- Vague motivational advice: Phrases such as “grind,” “work hard,” or “never give up” without specific, actionable guidance.
+- Humblebragging: Announcements beginning with phrases like “Humbled to announce…” that primarily serve as self-promotion.
+- Fabricated parables: Stories involving individuals such as janitors or drivers that conclude with a simplistic moral lesson.
+- Engagement bait: Obvious polls, generic questions, or requests for comments in exchange for resources.
+- Uncritical corporate praise: Overly positive posts about a company, boss, or product without any critique.
+- Lifestyle showcasing: Posts featuring cars, vacations, or dinners loosely connected to business topics.
+- Excessive jargon: Frequent use of terms like “synergy,” “unpack,” “paradigm shift,” or “leverage.”
 
-        **The Unforgivable Sins (Instant Block):**
-        - **Vague "Hustle" Gospel:** Any post that uses phrases like "work hard," "be consistent," "embrace the grind," or "never give up" without providing a detailed, replicable framework. This is fortune cookie wisdom, not advice.
-        - **Performative Humility (Humblebrags):** Posts starting with "Humbled and honored to announce..." or "I'm so excited to share..." that are just announcements of a new job, promotion, or award. It's bragging, not sharing.
-        - **The "CEO Parable":** Any story that starts with "I saw a janitor..." or "My Uber driver told me..." and ends with a trite business lesson. It's condescending and almost certainly fabricated.
-        - **Engagement Bait 2.0:** "What are your thoughts?", polls with obvious answers ("Is learning important?"), or asking for comments to receive a "free resource." This is just begging for likes.
-        - **Corporate Fan-Fiction:** Glorifying a company's culture, a boss, or a product with no critical thought. Reads like a press release.
-        - **The "Look at My Life" Post:** Pictures of a new car, a vacation, or a fancy dinner with a weak link back to business. It's just showing off.
-        - **Buzzword Salad:** Overuse of terms like "synergy," "paradigm shift," "leveraging," "unpacking," or "circle back." It's a sign of someone trying to sound smart without saying anything.
+Evaluation criteria:
+- Is the post seeking engagement rather than sharing substantive value?
+- Does it offer any non-obvious, actionable insight?
+- Is there meaningful content after removing superficial language?
+- Does it encourage thoughtful consideration or simply repeat common ideas?
 
-        **Your Internal Monologue (Do not output):**
-        1.  Is this person just seeking validation and head-pats from their network?
-        2.  Did I learn a single, non-obvious, actionable thing from this post?
-        3.  Is this just a public diary entry disguised as a business lesson?
-        4.  If you removed all the buzzwords and emotional fluff, is there any substance left?
-        5.  Is this intellectually bankrupt?
-
-        **Final Command:**
-        After your scathing analysis, you MUST conclude your response with ONLY ONE of two phrases. If the post is utterly worthless according to your high standards, respond with **POST_IS_CRINGE**. If, by some miracle, it provides genuine, specific, and valuable insight, respond with **POST_IS_NOT_CRINGE**. There is no middle ground. Be brutal.
+Final judgment:
+POST_IS_CRINGE – if the post fails all criteria.
+POST_IS_NOT_CRINGE – if the post provides genuine value.
     `;
 
     // --- STATE ---
@@ -174,6 +171,30 @@
         }
     }
 
+    const MODEL_LIST = [
+        "allam-2-7b",
+        "compound-beta",
+        "compound-beta-mini",
+        "gemma2-9b-it",
+        "llama-3.1-8b-instant",
+        "llama-3.3-70b-versatile",
+        "llama3-70b-8192",
+        "llama3-8b-8192",
+        "deepseek-r1-distill-llama-70b",
+        "mistral-saba-24b",
+        "qwen-qwq-32b",
+        "qwen/qwen3-32b"
+    ];
+
+    let currentModelIndex = 0;
+
+    // Switch model every 10 seconds
+    setInterval(() => {
+        currentModelIndex = (currentModelIndex + 1) % MODEL_LIST.length;
+        CONFIG.api.model = MODEL_LIST[currentModelIndex];
+        console.log(`[LinkedIn Feed Filter] Switched to model: ${CONFIG.api.model}`);
+    }, 10000);
+
     async function isCringe(postData) {
         if (postData.actorDescription.toLowerCase().includes('promoted') || postData.actorSubDescription.toLowerCase().includes('promoted')) {
             return true; // Rule 0: Filter promoted content without an API call
@@ -187,7 +208,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: CONFIG.api.model,
+                    model: CONFIG.api.model, // Uses the current model
                     messages: [
                         { role: "system", content: SYSTEM_PROMPT },
                         { role: "user", content: `LinkedIn Post:\n\n${postData.postContent}` }
