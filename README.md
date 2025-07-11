@@ -4,6 +4,8 @@ Tired of wading through a sea of humble-brags, unrelated emotional stories, and 
 
 It's a smart Chrome extension that uses the power of AI to automatically detect and filter out low-value, cringey, and unprofessional posts, leaving you with a cleaner, more focused, and genuinely valuable professional network.
 
+![View Counter](https://shields.io/badge/views-0-blue?style=for-the-badge)
+![Download Counter](https://shields.io/badge/downloads-0-green?style=for-the-badge)
 ![Feed filter Demo](images/icon.png)
 
 ## 🧩 How to Install the Extension from Source (Unpacked)
